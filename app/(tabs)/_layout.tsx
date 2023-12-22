@@ -1,55 +1,81 @@
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Link, Tabs } from 'expo-router';
-import { Pressable, useColorScheme } from 'react-native';
+import { Tabs } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
+import Colors from "@/constants/Colors";
+import { TouchableOpacity, View } from "react-native";
 
-import Colors from '../../constants/Colors';
-
-/**
- * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
- */
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
-  color: string;
-}) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
-}
+const TabItems = [
+  {
+    screen: "index",
+    title: "Home",
+    icon: "home" as const,
+  },
+  {
+    screen: "expenses",
+    title: "Expenses",
+    icon: "receipt" as const,
+  },
+  {
+    screen: "reports",
+    title: "Reports",
+    icon: "document" as const,
+  },
+  {
+    screen: "trips",
+    title: "Trips",
+    icon: "airplane" as const,
+  },
+  {
+    screen: "settings",
+    title: "Settings",
+    icon: "settings" as const,
+  },
+];
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-      }}>
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => (
-            <Link href="/modal" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <FontAwesome
-                    name="info-circle"
-                    size={25}
-                    color={Colors[colorScheme ?? 'light'].text}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
-            </Link>
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="two"
-        options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-        }}
-      />
+        headerStyle: {
+          backgroundColor: Colors["app-bg"],
+        },
+        headerShadowVisible: false,
+        tabBarActiveTintColor: Colors["app-primary"],
+        headerRight: () => (
+          <View className="mr-3 flex-row gap-5">
+            <TouchableOpacity>
+              <Ionicons
+                name="chatbubble-outline"
+                size={24}
+                color={Colors["app-text-light"]}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <Ionicons
+                name="add-circle-outline"
+                size={24}
+                color={Colors["app-text-light"]}
+              />
+            </TouchableOpacity>
+          </View>
+        ),
+      }}
+    >
+      {TabItems.map(({ screen, title, icon }) => (
+        <Tabs.Screen
+          key={screen}
+          name={screen}
+          options={{
+            title,
+            tabBarIcon: ({ color, size, focused }) => (
+              <Ionicons
+                name={icon}
+                color={focused ? Colors["app-primary"] : color}
+                size={size}
+              />
+            ),
+          }}
+        />
+      ))}
     </Tabs>
   );
 }
