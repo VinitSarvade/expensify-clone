@@ -1,23 +1,19 @@
 import { useState } from "react";
 import { SafeAreaView, TouchableOpacity, View } from "react-native";
+import Animated, { FadeInRight } from "react-native-reanimated";
 import { FlashList } from "@shopify/flash-list";
 
 import Text from "@/shared/components/text";
 import SearchInput from "@/shared/components/search-input";
-import Currencies from "@assets/currencies.json";
-import Animated, { FadeInRight } from "react-native-reanimated";
+import Categories from "@assets/categories.json";
 
-const currenciesList = Object.values(Currencies);
-
-export default function CurrenciesScreen() {
+export default function CategoriesScreen() {
   const [searchText, setSearchText] = useState("");
-  const filteredCurrencies =
+  const filteredCategories =
     searchText.length === 0
-      ? currenciesList
-      : currenciesList.filter(
-          (currency) =>
-            currency.name.toLowerCase().includes(searchText.toLowerCase()) ||
-            currency.code.toLowerCase().includes(searchText.toLowerCase()),
+      ? Categories
+      : Categories.filter((cat) =>
+          cat.toLowerCase().includes(searchText.toLowerCase()),
         );
 
   return (
@@ -29,16 +25,16 @@ export default function CurrenciesScreen() {
           enterKeyHint="search"
         />
 
-        {filteredCurrencies.length === 0 && (
+        {filteredCategories.length === 0 && (
           <View className="flex-1 mt-36 items-center">
             <Text className="text-xl font-semibold">No Results</Text>
           </View>
         )}
 
-        {filteredCurrencies.length > 0 && (
+        {filteredCategories.length > 0 && (
           <FlashList
-            data={filteredCurrencies}
-            keyExtractor={(item) => item.code}
+            data={filteredCategories}
+            keyExtractor={(_, index) => index.toString()}
             estimatedItemSize={50}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{ paddingTop: 10 }}
@@ -48,13 +44,7 @@ export default function CurrenciesScreen() {
                   className="flex-row items-center justify-between py-3 border-b border-app-border"
                   activeOpacity={0.5}
                 >
-                  <View className="flex-row gap-4 items-center">
-                    <View className="bg-app-border px-2 py-1 rounded-lg w-16 items-center">
-                      <Text className="font-semibold">{item.symbol}</Text>
-                    </View>
-                    <Text>{item.name}</Text>
-                  </View>
-                  <Text className="font-semibold">{item.code}</Text>
+                  <Text className="">{item}</Text>
                 </TouchableOpacity>
               </Animated.View>
             )}

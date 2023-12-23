@@ -119,14 +119,16 @@ export default function Settings() {
             </ListItem>
           </Link>
 
-          <ListItem>
-            <Text>Categories</Text>
-            <Ionicons
-              name="chevron-forward-outline"
-              size={18}
-              color={Colors["app-text-light"]}
-            />
-          </ListItem>
+          <Link href="/(settings)/categories" asChild>
+            <ListItem>
+              <Text>Categories</Text>
+              <Ionicons
+                name="chevron-forward-outline"
+                size={18}
+                color={Colors["app-text-light"]}
+              />
+            </ListItem>
+          </Link>
 
           <ListItem className="border-b-0">
             <Text>Free Trial</Text>

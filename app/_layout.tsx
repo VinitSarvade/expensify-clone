@@ -63,6 +63,10 @@ export default function RootLayout() {
         name="(settings)/currencies"
         options={{ title: "Select a Currency" }}
       />
+      <Stack.Screen
+        name="(settings)/categories"
+        options={{ title: "Categories" }}
+      />
     </Stack>
   );
 }
