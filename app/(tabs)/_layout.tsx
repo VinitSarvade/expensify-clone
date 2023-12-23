@@ -1,7 +1,8 @@
+import { View, TouchableOpacity } from "react-native";
 import { Tabs } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
-import Colors from "@/constants/Colors";
-import { TouchableOpacity, View } from "react-native";
+
+import Colors from "@/shared/constants/Colors";
 
 const TabItems = [
   {
@@ -40,6 +41,9 @@ export default function TabLayout() {
         },
         headerShadowVisible: false,
         tabBarActiveTintColor: Colors["app-primary"],
+        headerTitleStyle: {
+          color: Colors["app-text"],
+        },
         headerRight: () => (
           <View className="mr-3 flex-row gap-5">
             <TouchableOpacity>
