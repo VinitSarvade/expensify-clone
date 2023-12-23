@@ -1,8 +1,10 @@
 import "../style.css";
+import { useEffect } from "react";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useFonts } from "expo-font";
-import { Slot, SplashScreen } from "expo-router";
-import { useEffect } from "react";
+import { SplashScreen, Stack } from "expo-router";
+
+import Colors from "@/shared/constants/Colors";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -19,7 +21,7 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
-    SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
+    SpaceMono: require("@assets/fonts/SpaceMono-Regular.ttf"),
     ...FontAwesome.font,
   });
 
@@ -38,5 +40,29 @@ export default function RootLayout() {
     return null;
   }
 
-  return <Slot />;
+  return (
+    <Stack
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: Colors["app-bg"],
+        },
+        headerTitleStyle: {
+          color: Colors["app-text"],
+        },
+        headerShadowVisible: false,
+        headerTintColor: Colors["app-primary"],
+      }}
+    >
+      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      <Stack.Screen name="(settings)/profile" options={{ title: "Profile" }} />
+      <Stack.Screen
+        name="(settings)/import-card"
+        options={{ title: "Import credit card" }}
+      />
+      <Stack.Screen
+        name="(settings)/currencies"
+        options={{ title: "Select a Currency" }}
+      />
+    </Stack>
+  );
 }

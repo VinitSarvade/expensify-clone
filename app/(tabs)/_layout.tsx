@@ -3,6 +3,7 @@ import { Tabs } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 
 import Colors from "@/shared/constants/Colors";
+import { SvgFromUri } from "react-native-svg";
 
 const TabItems = [
   {
@@ -44,24 +45,8 @@ export default function TabLayout() {
         headerTitleStyle: {
           color: Colors["app-text"],
         },
-        headerRight: () => (
-          <View className="mr-3 flex-row gap-5">
-            <TouchableOpacity>
-              <Ionicons
-                name="chatbubble-outline"
-                size={24}
-                color={Colors["app-text-light"]}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <Ionicons
-                name="add-circle-outline"
-                size={24}
-                color={Colors["app-text-light"]}
-              />
-            </TouchableOpacity>
-          </View>
-        ),
+        headerRight: HeaderRight,
+        headerLeft: HeaderLeft,
       }}
     >
       {TabItems.map(({ screen, title, icon }) => (
@@ -83,3 +68,32 @@ export default function TabLayout() {
     </Tabs>
   );
 }
+
+const HeaderLeft = () => (
+  <SvgFromUri
+    uri="https://static1.squarespace.com/static/ta/577c006b725e25e0affed0c1/2551/assets/img/expensify-wordmark.svg"
+    width={80}
+    height={20}
+    style={{ marginLeft: 10, marginTop: 2 }}
+    fill={Colors["app-text-light"]}
+  />
+);
+
+const HeaderRight = () => (
+  <View className="mr-3 flex-row gap-5">
+    <TouchableOpacity>
+      <Ionicons
+        name="chatbubble-outline"
+        size={24}
+        color={Colors["app-text-light"]}
+      />
+    </TouchableOpacity>
+    <TouchableOpacity>
+      <Ionicons
+        name="add-circle-outline"
+        size={24}
+        color={Colors["app-text-light"]}
+      />
+    </TouchableOpacity>
+  </View>
+);
