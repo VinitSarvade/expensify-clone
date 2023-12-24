@@ -1,12 +1,19 @@
-import { useCallback, useState } from "react";
-import { Alert, Share, View } from "react-native";
+import { useCallback, useRef, useState } from "react";
+import { Alert, ScrollView, Share, View } from "react-native";
 import { SvgCssUri } from "react-native-svg";
 
 import Text from "@/shared/components/text";
 import Button from "@/shared/components/button";
 import ConciergeCollapsible from "./concierge-collapsible";
 
-export default function ConciergeInvite() {
+interface ConciergeInviteProps {
+  scrollViewRef: React.RefObject<ScrollView>;
+}
+
+export default function ConciergeInvite({
+  scrollViewRef,
+}: ConciergeInviteProps) {
+  const collapsibleRef = useRef<View>(null);
   const [isOpen, setIsOpen] = useState(false);
 
   const onInvite = useCallback(async () => {
@@ -28,6 +35,7 @@ export default function ConciergeInvite() {
       title="The more the merrier - invite others to Expensify!"
       isOpen={isOpen}
       setIsOpen={setIsOpen}
+      ref={collapsibleRef}
     >
       <View className="mt-6">
         <Text className="text-base">

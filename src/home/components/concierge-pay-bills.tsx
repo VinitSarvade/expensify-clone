@@ -1,12 +1,18 @@
 import { useState } from "react";
-import { View } from "react-native";
+import { ScrollView, View } from "react-native";
 import { SvgCssUri } from "react-native-svg";
 
 import Text from "@/shared/components/text";
 import Button from "@/shared/components/button";
 import ConciergeCollapsible from "./concierge-collapsible";
 
-export default function ConciergePayBills() {
+interface ConciergePayBillsProps {
+  scrollViewRef: React.RefObject<ScrollView>;
+}
+
+export default function ConciergePayBills({
+  scrollViewRef,
+}: ConciergePayBillsProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (

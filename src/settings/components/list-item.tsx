@@ -11,7 +11,7 @@ function ListItem(
       activeOpacity={0.7}
       ref={ref}
       className={twMerge(
-        "ml-3 pr-2 h-14 border-b border-app-border flex-row justify-between items-center",
+        "ml-3 pr-2 h-16 border-b border-app-border flex-row justify-between items-center",
         className,
       )}
       {...props}

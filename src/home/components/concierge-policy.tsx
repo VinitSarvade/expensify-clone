@@ -1,5 +1,5 @@
-import { Fragment, useState } from "react";
-import { View, Dimensions, Pressable } from "react-native";
+import { Fragment, useCallback, useState } from "react";
+import { View, Dimensions, Pressable, ScrollView } from "react-native";
 import { SvgCssUri, SvgFromUri } from "react-native-svg";
 import { Ionicons } from "@expo/vector-icons";
 import { twMerge } from "tailwind-merge";
@@ -17,6 +17,10 @@ enum ConciergeTypes {
   IndividualSubmit = "individual-submit",
   GroupCollect = "group-collect",
   GroupControl = "group-control",
+}
+
+interface ConciergePolicyProps {
+  scrollViewRef: React.RefObject<ScrollView>;
 }
 
 const conciergeOptions = [
@@ -60,9 +64,16 @@ const conciergeOptions = [
   },
 ];
 
-export default function ConciergePolicy() {
+export default function ConciergePolicy({
+  scrollViewRef,
+}: ConciergePolicyProps) {
   const [isOpen, setIsOpen] = useState(true);
   const [selected, setSelected] = useState(ConciergeTypes.IndividualTrack);
+
+  const handleSelect = useCallback((type: ConciergeTypes) => {
+    setSelected(type);
+    setTimeout(setIsOpen, 400, false);
+  }, []);
 
   return (
     <ConciergeCollapsible
@@ -94,7 +105,7 @@ export default function ConciergePolicy() {
                       isSelected ? "" : "opacity-50",
                     )}
                     style={{ width: cardWidth }}
-                    onPress={() => setSelected(opt.id)}
+                    onPress={() => handleSelect(opt.id)}
                   >
                     <View className="h-[80px]">
                       <Component

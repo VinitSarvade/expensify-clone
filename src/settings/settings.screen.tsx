@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Switch, TouchableOpacity, View } from "react-native";
+import { useRef, useState } from "react";
+import { Switch, TouchableOpacity, View, ScrollView } from "react-native";
 import Animated, { FadeInRight } from "react-native-reanimated";
 import { Link } from "expo-router";
 import { FontAwesome5, Ionicons } from "@expo/vector-icons";
@@ -147,7 +147,7 @@ export default function Settings() {
       </Animated.View>
 
       <Animated.View entering={FadeInRight.delay(150)}>
-        <Text className="text-sm font-semibold mt-8 mb-3">Others</Text>
+        <Text className="text-md font-semibold mt-8 mb-3">Others</Text>
         <ListGroup>
           <ListItem>
             <Text>Offline Mode</Text>

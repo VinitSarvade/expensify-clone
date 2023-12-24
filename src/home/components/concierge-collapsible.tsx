@@ -1,5 +1,5 @@
-import { Dispatch, SetStateAction } from "react";
-import { Pressable, View } from "react-native";
+import { Dispatch, ForwardedRef, SetStateAction, forwardRef } from "react";
+import { LayoutChangeEvent, Pressable, View } from "react-native";
 import { SvgCssUri } from "react-native-svg";
 import { Easing } from "react-native-reanimated";
 import { Ionicons } from "@expo/vector-icons";
@@ -15,14 +15,15 @@ interface ConciergeCollapsibleProps {
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-export default function ConciergeCollapsible({
-  title,
-  children,
-  isOpen,
-  setIsOpen,
-}: ConciergeCollapsibleProps) {
+function ConciergeCollapsible(
+  { title, children, isOpen, setIsOpen }: ConciergeCollapsibleProps,
+  ref: ForwardedRef<View>,
+) {
   return (
-    <View className="mt-3 p-4 pb-6 rounded-lg bg-white shadow-md shadow-app-border">
+    <View
+      className="mt-3 p-4 pb-6 rounded-lg bg-white shadow-md shadow-app-border"
+      ref={ref}
+    >
       <Pressable
         className="flex-row justify-between items-center"
         onPress={() => setIsOpen((prev) => !prev)}
@@ -59,3 +60,5 @@ export default function ConciergeCollapsible({
     </View>
   );
 }
+
+export default forwardRef(ConciergeCollapsible);
