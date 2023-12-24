@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
+import { StatusBar } from "expo-status-bar";
 
 import Colors from "@/shared/constants/Colors";
 
@@ -41,32 +42,38 @@ export default function RootLayout() {
   }
 
   return (
-    <Stack
-      screenOptions={{
-        headerStyle: {
-          backgroundColor: Colors["app-bg"],
-        },
-        headerTitleStyle: {
-          color: Colors["app-text"],
-        },
-        headerShadowVisible: false,
-        headerTintColor: Colors["app-primary"],
-      }}
-    >
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      <Stack.Screen name="(settings)/profile" options={{ title: "Profile" }} />
-      <Stack.Screen
-        name="(settings)/import-card"
-        options={{ title: "Import credit card" }}
-      />
-      <Stack.Screen
-        name="(settings)/currencies"
-        options={{ title: "Select a Currency" }}
-      />
-      <Stack.Screen
-        name="(settings)/categories"
-        options={{ title: "Categories" }}
-      />
-    </Stack>
+    <>
+      <StatusBar style="dark" />
+      <Stack
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: Colors["app-bg"],
+          },
+          headerTitleStyle: {
+            color: Colors["app-text"],
+          },
+          headerShadowVisible: false,
+          headerTintColor: Colors["app-primary"],
+        }}
+      >
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="(settings)/profile"
+          options={{ title: "Profile" }}
+        />
+        <Stack.Screen
+          name="(settings)/import-card"
+          options={{ title: "Import credit card" }}
+        />
+        <Stack.Screen
+          name="(settings)/currencies"
+          options={{ title: "Select a Currency" }}
+        />
+        <Stack.Screen
+          name="(settings)/categories"
+          options={{ title: "Categories" }}
+        />
+      </Stack>
+    </>
   );
 }
