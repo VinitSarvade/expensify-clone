@@ -1,8 +1,9 @@
-import { View, Text, TextInput, TextInputProps } from "react-native";
 import React from "react";
+import { View, TextInput, TextInputProps } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import Colors from "../constants/Colors";
 import { twMerge } from "tailwind-merge";
+
+import Colors from "../constants/Colors";
 
 interface SearchInputProps extends Omit<TextInputProps, "className"> {
   containerClassName?: string;
@@ -30,6 +31,7 @@ export default function SearchInput({
         className={twMerge("px-2 py-3 flex-grow", inputClassName)}
         placeholder="Search"
         clearButtonMode="always"
+        placeholderTextColor={Colors["app-text-light"]}
         {...props}
       />
     </View>

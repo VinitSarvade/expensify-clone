@@ -42,7 +42,7 @@ export default function Settings() {
       </Animated.View>
 
       <Animated.View entering={FadeInRight.delay(50)}>
-        <Text className="text-sm font-semibold mt-8 mb-3">Your Account</Text>
+        <Text className="text-md font-semibold mt-8 mb-3">Your Account</Text>
         <ListGroup>
           <Link href="/(settings)/import-card" asChild>
             <ListItem>
@@ -82,9 +82,9 @@ export default function Settings() {
 
       <Animated.View entering={FadeInRight.delay(100)}>
         <View className="flex-row justify-between mt-8 mb-3">
-          <Text className="text-sm font-semibold">Workspaces</Text>
+          <Text className="text-md font-semibold">Workspaces</Text>
           <View className="flex-row items-center">
-            <Text className="text-xs text-blue-500">View All</Text>
+            <Text className="text-sm text-blue-500">View All</Text>
             <Ionicons
               name="chevron-forward-outline"
               size={12}
@@ -94,12 +94,12 @@ export default function Settings() {
         </View>
 
         <ListGroup>
-          <ListItem className="h-24 flex-col justify-center items-start">
-            <Text className="text-lg">
+          <ListItem className="h-28 flex-col justify-center items-start">
+            <Text>
               Vinit's Expenses &nbsp;
               <Text className="text-sm">(Default Workspace)</Text>
             </Text>
-            <Text className="text-sm text-app-text-light">
+            <Text className="mt-1 text-md text-app-text-light">
               Your default workspace determines your currency, categories, and
               more.
             </Text>
