@@ -16,13 +16,15 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.vinitsarvade.expensify"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.vinitsarvade.expensify"
     },
     "web": {
       "bundler": "metro",
@@ -44,6 +46,12 @@
         "projectId": "1939514f-5979-45bc-8cee-294df251924c"
       }
     },
-    "owner": "vinitsarvade"
+    "owner": "vinitsarvade",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/1939514f-5979-45bc-8cee-294df251924c"
+    }
   }
 }
