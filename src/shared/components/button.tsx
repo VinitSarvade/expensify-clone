@@ -19,7 +19,7 @@ export default function Button({
   return (
     <TouchableOpacity
       className={twMerge(
-        "flex-row items-center justify-center h-14 bg-app-primary rounded-full",
+        "flex-row w-full items-center justify-center h-14 bg-app-primary rounded-full",
         containerClassName,
       )}
       activeOpacity={0.75}

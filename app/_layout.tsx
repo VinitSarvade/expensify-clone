@@ -2,10 +2,11 @@ import "../style.css";
 import { useEffect } from "react";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useFonts } from "expo-font";
-import { SplashScreen, Stack } from "expo-router";
+import { SplashScreen, Stack, usePathname } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 
 import Colors from "@/shared/constants/Colors";
+import Fab from "@/shared/components/fab";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -74,6 +75,7 @@ export default function RootLayout() {
           options={{ title: "Categories" }}
         />
       </Stack>
+      <Fab />
     </>
   );
 }

@@ -17,14 +17,14 @@ const TabItems = [
     icon: "receipt" as const,
   },
   {
-    screen: "reports",
-    title: "Reports",
-    icon: "document" as const,
-  },
-  {
     screen: "trips",
     title: "Trips",
     icon: "airplane" as const,
+  },
+  {
+    screen: "reports",
+    title: "Reports",
+    icon: "document" as const,
   },
   {
     screen: "settings",
@@ -74,7 +74,7 @@ const HeaderLeft = () => (
     uri="https://static1.squarespace.com/static/ta/577c006b725e25e0affed0c1/2551/assets/img/expensify-wordmark.svg"
     width={80}
     height={20}
-    style={{ marginLeft: 10, marginTop: 2 }}
+    className="ml-3 mt-2"
     fill={Colors["app-text-light"]}
   />
 );
@@ -84,13 +84,6 @@ const HeaderRight = () => (
     <TouchableOpacity>
       <Ionicons
         name="chatbubble-outline"
-        size={24}
-        color={Colors["app-text-light"]}
-      />
-    </TouchableOpacity>
-    <TouchableOpacity>
-      <Ionicons
-        name="add-circle-outline"
         size={24}
         color={Colors["app-text-light"]}
       />

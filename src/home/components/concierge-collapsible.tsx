@@ -1,5 +1,5 @@
 import { Dispatch, ForwardedRef, SetStateAction, forwardRef } from "react";
-import { LayoutChangeEvent, Pressable, View } from "react-native";
+import { Pressable, View } from "react-native";
 import { SvgCssUri } from "react-native-svg";
 import { Easing } from "react-native-reanimated";
 import { Ionicons } from "@expo/vector-icons";
