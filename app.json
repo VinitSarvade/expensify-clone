@@ -53,5 +53,14 @@
     "updates": {
       "url": "https://u.expo.dev/1939514f-5979-45bc-8cee-294df251924c"
     }
-  }
+  },
+  "plugins": [
+    [
+      "expo-image-picker",
+      {
+        "photosPermission": "The app accesses your photos to let you pick a profile picture.",
+        "cameraPermission": "The app accesses your camera to let you take a profile picture."
+      }
+    ]
+  ]
 }

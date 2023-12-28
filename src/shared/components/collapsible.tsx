@@ -44,7 +44,7 @@ export default function Collapsible({
   }, [expanded, height]);
 
   return (
-    <Animated.View style={[collapsibleStyle, { overflow: "hidden" }]}>
+    <Animated.View style={collapsibleStyle} className="overflow-hidden">
       <View className="w-full absolute" onLayout={onLayout}>
         {children}
       </View>

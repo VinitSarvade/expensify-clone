@@ -10,6 +10,7 @@ import Colors from "@/shared/constants/Colors";
 
 import ListGroup from "./components/list-group";
 import ListItem from "./components/list-item";
+import ProfilePic from "@/shared/components/profile-pic";
 
 export default function Settings() {
   const [twoFA, setTwoFA] = useState(false);
@@ -21,11 +22,8 @@ export default function Settings() {
       <Animated.View entering={FadeInRight}>
         <Link href="/(settings)/profile" asChild>
           <TouchableOpacity className="items-center gap-1" activeOpacity={0.7}>
-            <Ionicons
-              name="person-circle-outline"
-              size={98}
-              color={Colors["app-text"]}
-            />
+            <ProfilePic />
+
             <View className="flex-row items-center gap-3 ml-5">
               <Text className="text-2xl">Vinit Sarvade</Text>
               <FontAwesome5

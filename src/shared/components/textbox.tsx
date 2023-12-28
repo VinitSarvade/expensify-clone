@@ -1,5 +1,5 @@
 import { ForwardedRef, forwardRef } from "react";
-import { TextInput, TextInputProps } from "react-native";
+import { TextInput, TextInputProps, View } from "react-native";
 import { twMerge } from "tailwind-merge";
 
 import Text from "./text";
@@ -16,7 +16,7 @@ function Textbox(
   ref: ForwardedRef<TextInput>,
 ) {
   return (
-    <>
+    <View>
       <Text className={twMerge("text-md font-semibold", labelClassName)}>
         {label}
       </Text>
@@ -30,7 +30,7 @@ function Textbox(
         clearButtonMode="while-editing"
         {...props}
       />
-    </>
+    </View>
   );
 }
 
