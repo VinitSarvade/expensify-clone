@@ -41,7 +41,6 @@ function ProfilePic({
 
   const openCamera = async () => {
     await ImagePicker.requestCameraPermissionsAsync();
-    toggleOptionsModal();
     const result = await ImagePicker.launchCameraAsync({
       allowsEditing: true,
       aspect: [1, 1],
@@ -52,10 +51,10 @@ function ProfilePic({
     if (!result.canceled) {
       setImage(result.assets[0].uri);
     }
+    toggleOptionsModal();
   };
 
   const pickImage = async () => {
-    toggleOptionsModal();
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
@@ -66,6 +65,7 @@ function ProfilePic({
     if (!result.canceled) {
       setImage(result.assets[0].uri);
     }
+    toggleOptionsModal();
   };
 
   const removePic = useCallback(() => {
