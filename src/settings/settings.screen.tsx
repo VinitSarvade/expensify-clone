@@ -3,6 +3,7 @@ import { Switch, TouchableOpacity, View, ScrollView } from "react-native";
 import Animated, { FadeInRight } from "react-native-reanimated";
 import { Link } from "expo-router";
 import { FontAwesome5, Ionicons } from "@expo/vector-icons";
+import { useShallow } from "zustand/react/shallow";
 
 import Text from "@/shared/components/text";
 import ScreenWrapper from "@/shared/components/screen-wrapper";
@@ -11,21 +12,26 @@ import Colors from "@/shared/constants/Colors";
 import ListGroup from "./components/list-group";
 import ListItem from "./components/list-item";
 import ProfilePic from "@/shared/components/profile-pic";
+import { useUser } from "@/shared/store/user";
 
 export default function Settings() {
   const [twoFA, setTwoFA] = useState(false);
   const [offline, setOffline] = useState(false);
   const [alerts, setAlerts] = useState(false);
 
+  const [firstName, lastName, profilePic] = useUser(
+    useShallow((store) => [store.firstName, store.lastName, store.profilePic]),
+  );
+
   return (
     <ScreenWrapper className="px-3">
       <Animated.View entering={FadeInRight}>
         <Link href="/(settings)/profile" asChild>
           <TouchableOpacity className="items-center gap-1" activeOpacity={0.7}>
-            <ProfilePic />
+            <ProfilePic source={profilePic} />
 
             <View className="flex-row items-center gap-3 ml-5">
-              <Text className="text-2xl">Vinit Sarvade</Text>
+              <Text className="text-2xl">{`${firstName} ${lastName}`}</Text>
               <FontAwesome5
                 name="pencil-alt"
                 size={18}

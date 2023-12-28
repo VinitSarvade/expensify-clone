@@ -1,14 +1,14 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { TouchableOpacity, View } from "react-native";
 import { FontAwesome5, Ionicons } from "@expo/vector-icons";
 import { Image, ImageProps } from "expo-image";
-import * as ImagePicker from "expo-image-picker";
 import { twMerge } from "tailwind-merge";
 import { cssInterop } from "nativewind";
 import Modal from "react-native-modal";
 
 import Text from "@/shared/components/text";
-import Colors from "../constants/Colors";
+import Colors from "@/shared/constants/Colors";
+import useImageHandler from "./useImageHandler";
 
 cssInterop(Image, {
   className: "style",
@@ -22,6 +22,7 @@ interface ProfilePicProps extends Omit<ImageProps, "className"> {
   editable?: boolean;
   containerClassName?: string;
   imageClassName?: string;
+  onChange?: (image: string | null) => void;
 }
 
 function ProfilePic({
@@ -29,54 +30,43 @@ function ProfilePic({
   containerClassName,
   imageClassName,
   source,
+  onChange,
   ...props
 }: ProfilePicProps) {
   const [image, setImage] = useState<string>();
   const [optionsModalVisible, setOptionsModalVisible] = useState(false);
+  const [cleared, setClearImage] = useState(false);
 
   const toggleOptionsModal = useCallback(
     () => setOptionsModalVisible((prev) => !prev),
     [],
   );
 
-  const openCamera = async () => {
-    await ImagePicker.requestCameraPermissionsAsync();
-    const result = await ImagePicker.launchCameraAsync({
-      allowsEditing: true,
-      aspect: [1, 1],
-      quality: 1,
-      presentationStyle: ImagePicker.UIImagePickerPresentationStyle.PAGE_SHEET,
-    });
-
-    if (!result.canceled) {
-      setImage(result.assets[0].uri);
-    }
-    toggleOptionsModal();
-  };
-
-  const pickImage = async () => {
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-
-    if (!result.canceled) {
-      setImage(result.assets[0].uri);
-    }
-    toggleOptionsModal();
-  };
-
-  const removePic = useCallback(() => {
+  const clearImage = useCallback(() => {
     setImage(undefined);
-    toggleOptionsModal();
-  }, [toggleOptionsModal]);
+    setClearImage(true);
+    onChange?.(null);
+  }, [onChange]);
+
+  const { openCamera, pickImage, removePic } = useImageHandler({
+    setImage,
+    toggleOptionsModal,
+    clearImage,
+  });
+
+  useEffect(() => {
+    if (onChange && image) {
+      onChange(image);
+    }
+  }, [image, onChange]);
+
+  const showIcon = (!source && !image) || cleared;
+  const showImage = (!!source || !!image) && !cleared;
 
   return (
     <>
       <View className="items-center gap-3">
-        {!source && !image && (
+        {showIcon && (
           <Ionicons
             name="person-circle-outline"
             size={128}
@@ -84,11 +74,10 @@ function ProfilePic({
           />
         )}
 
-        {(!!source || !!image) && (
+        {showImage && (
           <Image
             {...props}
-            source={source || image}
-            placeholder="https://picsum.photos/200/300"
+            source={image || source}
             className={twMerge("rounded-full w-32 h-32", imageClassName)}
           />
         )}
