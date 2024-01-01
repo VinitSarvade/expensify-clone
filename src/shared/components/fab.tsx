@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Dimensions, Pressable, View } from "react-native";
+import { Dimensions, Pressable, TouchableOpacity, View } from "react-native";
 import { Feather, Ionicons } from "@expo/vector-icons";
 import Animated, {
+  FadeIn,
   FadeInRight,
   useAnimatedProps,
   useAnimatedStyle,
@@ -14,6 +15,7 @@ import Colors from "../constants/Colors";
 import { usePathname } from "expo-router";
 
 const AnimatedIcon = Animated.createAnimatedComponent(Feather);
+const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 const screenWidth = Dimensions.get("screen").width;
 
@@ -95,56 +97,72 @@ export default function Fab() {
     };
   }, [isOpen]);
 
+  const backdropStyle = useAnimatedStyle(() => {
+    return {
+      opacity: isOpen ? withTiming(0.3) : withTiming(0),
+    };
+  }, [isOpen]);
+
   if (!FAB_VISIBLE_PATHS.includes(pathname)) {
     return null;
   }
 
   return (
-    <Animated.View style={[viewStyle]} className="absolute shadow-sm">
-      {!isOpen && (
-        <Pressable
-          onPress={() => setIsOpen(true)}
-          className="rounded-full p-3 items-center justify-center "
-          hitSlop={10}
-        >
-          <AnimatedIcon name="plus" size={36} animatedProps={iconProps} />
-        </Pressable>
-      )}
-
+    <>
       {isOpen && (
-        <Pressable
+        <AnimatedPressable
+          style={[backdropStyle]}
+          className="flex-1 w-full h-full absolute inset-0 bg-app-text"
           onPress={() => setIsOpen(false)}
-          className="absolute top-0 right-0 p-3 z-10"
-          hitSlop={10}
-        >
-          <AnimatedIcon name="x" size={24} animatedProps={iconProps} />
-        </Pressable>
+        />
       )}
+      <Animated.View style={[viewStyle]} className="absolute shadow-sm">
+        {!isOpen && (
+          <Pressable
+            onPress={() => setIsOpen(true)}
+            className="rounded-full p-3 items-center justify-center "
+            hitSlop={10}
+          >
+            <AnimatedIcon name="plus" size={36} animatedProps={iconProps} />
+          </Pressable>
+        )}
 
-      {isOpen && (
-        <Animated.View entering={FadeInRight.delay(200)} className="p-4">
-          {OPTIONS.map(({ title, actions }) => (
-            <View key={title} className="mb-4">
-              <Text className="mb-3">{title}</Text>
-              <View className="flex-row gap-3">
-                {actions.map(({ title, icon }) => (
-                  <View
-                    key={icon}
-                    className="rounded-md bg-white py-3 items-center flex-1 justify-center border border-app-border"
-                  >
-                    <Ionicons
-                      name={icon}
-                      size={24}
-                      color={Colors["app-primary"]}
-                    />
-                    <Text className="text-md mt-2">{title}</Text>
-                  </View>
-                ))}
+        {isOpen && (
+          <Pressable
+            onPress={() => setIsOpen(false)}
+            className="absolute top-0 right-0 p-3 z-10"
+            hitSlop={10}
+          >
+            <AnimatedIcon name="x" size={24} animatedProps={iconProps} />
+          </Pressable>
+        )}
+
+        {isOpen && (
+          <Animated.View entering={FadeInRight.delay(200)} className="p-4">
+            {OPTIONS.map(({ title, actions }) => (
+              <View key={title} className="mb-4">
+                <Text className="mb-3">{title}</Text>
+                <View className="flex-row gap-3">
+                  {actions.map(({ title, icon }) => (
+                    <TouchableOpacity
+                      key={icon}
+                      activeOpacity={0.5}
+                      className="rounded-md bg-white py-3 items-center flex-1 justify-center border border-app-border"
+                    >
+                      <Ionicons
+                        name={icon}
+                        size={24}
+                        color={Colors["app-primary"]}
+                      />
+                      <Text className="text-md mt-2">{title}</Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
               </View>
-            </View>
-          ))}
-        </Animated.View>
-      )}
-    </Animated.View>
+            ))}
+          </Animated.View>
+        )}
+      </Animated.View>
+    </>
   );
 }
