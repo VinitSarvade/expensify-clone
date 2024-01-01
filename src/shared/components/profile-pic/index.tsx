@@ -22,6 +22,8 @@ interface ProfilePicProps extends Omit<ImageProps, "className"> {
   editable?: boolean;
   containerClassName?: string;
   imageClassName?: string;
+  iconSize?: number;
+  iconColor?: string;
   onChange?: (image: string | null) => void;
 }
 
@@ -31,6 +33,8 @@ function ProfilePic({
   imageClassName,
   source,
   onChange,
+  iconSize = 128,
+  iconColor = Colors["app-text"],
   ...props
 }: ProfilePicProps) {
   const [image, setImage] = useState<string>();
@@ -69,8 +73,8 @@ function ProfilePic({
         {showIcon && (
           <Ionicons
             name="person-circle-outline"
-            size={128}
-            color={Colors["app-text"]}
+            size={iconSize}
+            color={iconColor}
           />
         )}
 

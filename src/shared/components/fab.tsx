@@ -1,18 +1,26 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Dimensions, Pressable, TouchableOpacity, View } from "react-native";
 import { Feather, Ionicons } from "@expo/vector-icons";
 import Animated, {
-  FadeIn,
   FadeInRight,
   useAnimatedProps,
   useAnimatedStyle,
   withSpring,
   withTiming,
 } from "react-native-reanimated";
+import { router, usePathname, Route } from "expo-router";
 
 import Text from "./text";
 import Colors from "../constants/Colors";
-import { usePathname } from "expo-router";
+
+interface Option {
+  title: string;
+  actions: {
+    title: string;
+    icon: keyof typeof Ionicons.glyphMap;
+    link?: Route<string>;
+  }[];
+}
 
 const AnimatedIcon = Animated.createAnimatedComponent(Feather);
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
@@ -26,21 +34,22 @@ const CLOSED_HEIGHT = 56;
 
 const FAB_VISIBLE_PATHS = ["/", "/expenses", "/trips", "/reports"];
 
-const OPTIONS = [
+const OPTIONS: Option[] = [
   {
     title: "Expense",
     actions: [
       {
         title: "Create",
-        icon: "receipt" as const,
+        icon: "receipt",
+        link: "/add-expense",
       },
       {
         title: "Scan",
-        icon: "camera" as const,
+        icon: "camera",
       },
       {
         title: "Time",
-        icon: "time" as const,
+        icon: "time",
       },
     ],
   },
@@ -50,6 +59,7 @@ const OPTIONS = [
       {
         title: "Create",
         icon: "car" as const,
+        link: "/add-expense",
       },
       {
         title: "Odometer",
@@ -103,6 +113,16 @@ export default function Fab() {
     };
   }, [isOpen]);
 
+  const goto = useCallback(
+    (link?: Route<string>) => () => {
+      if (link) {
+        setIsOpen(false);
+        router.push(link);
+      }
+    },
+    [],
+  );
+
   if (!FAB_VISIBLE_PATHS.includes(pathname)) {
     return null;
   }
@@ -143,11 +163,12 @@ export default function Fab() {
               <View key={title} className="mb-4">
                 <Text className="mb-3">{title}</Text>
                 <View className="flex-row gap-3">
-                  {actions.map(({ title, icon }) => (
+                  {actions.map(({ title, icon, link }) => (
                     <TouchableOpacity
                       key={icon}
                       activeOpacity={0.5}
                       className="rounded-md bg-white py-3 items-center flex-1 justify-center border border-app-border"
+                      onPress={goto(link)}
                     >
                       <Ionicons
                         name={icon}

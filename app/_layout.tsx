@@ -2,7 +2,7 @@ import "../style.css";
 import { useEffect } from "react";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useFonts } from "expo-font";
-import { SplashScreen, Stack, usePathname } from "expo-router";
+import { SplashScreen, Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 
 import Colors from "@/shared/constants/Colors";
@@ -73,6 +73,10 @@ export default function RootLayout() {
         <Stack.Screen
           name="(settings)/categories"
           options={{ title: "Categories" }}
+        />
+        <Stack.Screen
+          name="add-expense"
+          options={{ title: "New Expense", presentation: "modal" }}
         />
       </Stack>
       <Fab />

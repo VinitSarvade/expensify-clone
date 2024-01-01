@@ -4,32 +4,45 @@ import { twMerge } from "tailwind-merge";
 
 import Text from "./text";
 import Colors from "../constants/Colors";
+import { ValidationError } from "@tanstack/react-form";
 
 interface TextboxProps extends Omit<TextInputProps, "className"> {
   label: string;
+  error?: ValidationError[];
   inputClassName?: string;
   labelClassName?: string;
 }
 
 function Textbox(
-  { label, inputClassName, labelClassName, ...props }: TextboxProps,
+  { label, inputClassName, labelClassName, error = [], ...props }: TextboxProps,
   ref: ForwardedRef<TextInput>,
 ) {
   return (
     <View>
-      <Text className={twMerge("text-md font-semibold", labelClassName)}>
+      <Text
+        className={twMerge(
+          "text-md font-semibold",
+          error.length > 0 && "text-app-danger",
+          labelClassName,
+        )}
+      >
         {label}
       </Text>
       <TextInput
         ref={ref}
         className={twMerge(
-          "h-10 border-b border-app-border text-lg/none",
+          "min-h-10 border-b border-app-border text-lg/none",
           inputClassName,
         )}
         placeholderTextColor={Colors["app-text-light"]}
         clearButtonMode="while-editing"
         {...props}
       />
+      {error.length > 0 && (
+        <Text className="text-sm mt-1 font-normal italic text-app-danger">
+          {error}
+        </Text>
+      )}
     </View>
   );
 }
