@@ -8,6 +8,12 @@ interface User {
   lastName?: string;
   email?: string;
   profilePic?: string | null;
+  preferences?: {
+    twoFactor?: boolean;
+    reportCurrency?: string;
+    offlineMode?: boolean;
+    realtimeAlerts?: boolean;
+  };
 }
 
 interface UserStore extends User {
@@ -15,11 +21,15 @@ interface UserStore extends User {
   clearUser: () => void;
   setProfilePic: (pic: string) => void;
   clearProfilePic: () => void;
+  toggleTwoFactor: () => void;
+  toggleOfflineMode: () => void;
+  toggleRealtimeAlerts: () => void;
+  setReportCurrency: (currency: string) => void;
 }
 
 export const useUser = create<UserStore>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       firstName: "Vinit",
       lastName: "Sarvade",
       email: "vinit.sarvade.08@gmail.com",
@@ -39,6 +49,35 @@ export const useUser = create<UserStore>()(
       },
       clearProfilePic: () => {
         set({ profilePic: undefined });
+      },
+      toggleTwoFactor: () => {
+        set({
+          preferences: {
+            ...get().preferences,
+            twoFactor: !get().preferences?.twoFactor,
+          },
+        });
+      },
+      toggleOfflineMode: () => {
+        set({
+          preferences: {
+            ...get().preferences,
+            offlineMode: !get().preferences?.offlineMode,
+          },
+        });
+      },
+      toggleRealtimeAlerts: () => {
+        set({
+          preferences: {
+            ...get().preferences,
+            realtimeAlerts: !get().preferences?.realtimeAlerts,
+          },
+        });
+      },
+      setReportCurrency: (currency) => {
+        set({
+          preferences: { ...get().preferences, reportCurrency: currency },
+        });
       },
     }),
     {

@@ -1,5 +1,4 @@
-import { useRef, useState } from "react";
-import { Switch, TouchableOpacity, View, ScrollView } from "react-native";
+import { Switch, TouchableOpacity, View } from "react-native";
 import Animated, { FadeInRight } from "react-native-reanimated";
 import { Link } from "expo-router";
 import { FontAwesome5, Ionicons } from "@expo/vector-icons";
@@ -8,20 +7,36 @@ import { useShallow } from "zustand/react/shallow";
 import Text from "@/shared/components/text";
 import ScreenWrapper from "@/shared/components/screen-wrapper";
 import Colors from "@/shared/constants/Colors";
-
-import ListGroup from "./components/list-group";
-import ListItem from "./components/list-item";
 import ProfilePic from "@/shared/components/profile-pic";
 import { useUser } from "@/shared/store/user";
+import Currencies from "@assets/currencies.json";
+import ListGroup from "./components/list-group";
+import ListItem from "./components/list-item";
 
 export default function Settings() {
-  const [twoFA, setTwoFA] = useState(false);
-  const [offline, setOffline] = useState(false);
-  const [alerts, setAlerts] = useState(false);
-
-  const [firstName, lastName, profilePic] = useUser(
-    useShallow((store) => [store.firstName, store.lastName, store.profilePic]),
+  const [
+    firstName,
+    lastName,
+    profilePic,
+    preferences,
+    toggleOfflineMode,
+    toggleRealtimeAlerts,
+    toggleTwoFactor,
+  ] = useUser(
+    useShallow((store) => [
+      store.firstName,
+      store.lastName,
+      store.profilePic,
+      store.preferences,
+      store.toggleOfflineMode,
+      store.toggleRealtimeAlerts,
+      store.toggleTwoFactor,
+    ]),
   );
+
+  const selectedCurrency = preferences?.reportCurrency
+    ? Currencies[preferences.reportCurrency as keyof typeof Currencies]
+    : null;
 
   return (
     <ScreenWrapper className="px-3">
@@ -77,8 +92,8 @@ export default function Settings() {
             <Text>Two Factor Authentication</Text>
             <Switch
               trackColor={{ true: Colors["app-primary"] }}
-              value={twoFA}
-              onValueChange={setTwoFA}
+              value={preferences?.twoFactor}
+              onValueChange={toggleTwoFactor}
             />
           </ListItem>
         </ListGroup>
@@ -100,7 +115,7 @@ export default function Settings() {
         <ListGroup>
           <ListItem className="h-28 flex-col justify-center items-start">
             <Text>
-              Vinit's Expenses &nbsp;
+              {`${firstName}'s Expenses `}
               <Text className="text-sm">(Default Workspace)</Text>
             </Text>
             <Text className="mt-1 text-md text-app-text-light">
@@ -113,7 +128,12 @@ export default function Settings() {
             <ListItem>
               <Text>Report Currency</Text>
               <View className="flex-row items-center">
-                <Text className="text-sm text-app-text-light">INR &#8377;</Text>
+                {selectedCurrency && (
+                  <Text className="text-sm text-app-text-light">
+                    {`${selectedCurrency.code} ${selectedCurrency.symbol}`}
+                  </Text>
+                )}
+
                 <Ionicons
                   name="chevron-forward-outline"
                   size={18}
@@ -157,8 +177,8 @@ export default function Settings() {
             <Text>Offline Mode</Text>
             <Switch
               trackColor={{ true: Colors["app-primary"] }}
-              value={offline}
-              onValueChange={setOffline}
+              value={preferences?.offlineMode}
+              onValueChange={toggleOfflineMode}
             />
           </ListItem>
 
@@ -166,8 +186,8 @@ export default function Settings() {
             <Text>Receive realtime alerts</Text>
             <Switch
               trackColor={{ true: Colors["app-primary"] }}
-              value={alerts}
-              onValueChange={setAlerts}
+              value={preferences?.realtimeAlerts}
+              onValueChange={toggleRealtimeAlerts}
             />
           </ListItem>
 

@@ -1,16 +1,35 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { SafeAreaView, TouchableOpacity, View } from "react-native";
 import { FlashList } from "@shopify/flash-list";
+import Animated, { FadeInRight } from "react-native-reanimated";
+import { useShallow } from "zustand/react/shallow";
+import { twMerge } from "tailwind-merge";
+import { router } from "expo-router";
 
 import Text from "@/shared/components/text";
 import SearchInput from "@/shared/components/search-input";
 import Currencies from "@assets/currencies.json";
-import Animated, { FadeInRight } from "react-native-reanimated";
+import { useUser } from "@/shared/store/user";
 
 const currenciesList = Object.values(Currencies);
 
 export default function CurrenciesScreen() {
   const [searchText, setSearchText] = useState("");
+  const [selectedCurrency, setReportCurrency] = useUser(
+    useShallow((store) => [
+      store.preferences?.reportCurrency,
+      store.setReportCurrency,
+    ]),
+  );
+
+  const handleCurrencySelect = useCallback(
+    (currencyCode: string) => () => {
+      setReportCurrency(currencyCode);
+      router.back();
+    },
+    [setReportCurrency],
+  );
+
   const filteredCurrencies =
     searchText.length === 0
       ? currenciesList
@@ -47,10 +66,23 @@ export default function CurrenciesScreen() {
                 <TouchableOpacity
                   className="flex-row items-center justify-between py-3 border-b border-app-border"
                   activeOpacity={0.5}
+                  onPress={handleCurrencySelect(item.code)}
                 >
                   <View className="flex-row gap-4 items-center">
-                    <View className="bg-app-border px-2 py-1 rounded-lg w-16 items-center">
-                      <Text className="font-semibold">{item.symbol}</Text>
+                    <View
+                      className={twMerge(
+                        "bg-app-border px-2 py-1 rounded-lg w-16 items-center",
+                        selectedCurrency === item.code && "!bg-app-primary",
+                      )}
+                    >
+                      <Text
+                        className={twMerge(
+                          "font-semibold",
+                          selectedCurrency === item.code && "text-white",
+                        )}
+                      >
+                        {item.symbol}
+                      </Text>
                     </View>
                     <Text>{item.name}</Text>
                   </View>
