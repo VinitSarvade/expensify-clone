@@ -1,8 +1,10 @@
 import { Switch, View } from "react-native";
+import { router } from "expo-router";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useShallow } from "zustand/react/shallow";
 import { useForm } from "@tanstack/react-form";
 import { zodValidator } from "@tanstack/zod-form-adapter";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { z } from "zod";
 
 import ScreenWrapper from "@/shared/components/screen-wrapper";
@@ -10,11 +12,9 @@ import Text from "@/shared/components/text";
 import Textbox from "@/shared/components/textbox";
 import Button from "@/shared/components/button";
 import { useUser } from "@/shared/store/user";
-import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import Colors from "@/shared/constants/Colors";
 import ProfilePic from "@/shared/components/profile-pic";
 import { useExpenses } from "@/shared/store/expenses";
-import { router } from "expo-router";
 
 const validation = {
   merchant: { onChange: z.string().min(1, "Merchant is required") },

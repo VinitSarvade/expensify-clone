@@ -34,8 +34,8 @@ export default function Settings() {
     ]),
   );
 
-  const selectedCurrency = preferences?.reportCurrency
-    ? Currencies[preferences.reportCurrency as keyof typeof Currencies]
+  const selectedCurrency = preferences?.defaultCurrency
+    ? Currencies[preferences.defaultCurrency as keyof typeof Currencies]
     : null;
 
   return (

@@ -17,7 +17,7 @@ export default function CurrenciesScreen() {
   const [searchText, setSearchText] = useState("");
   const [selectedCurrency, setReportCurrency] = useUser(
     useShallow((store) => [
-      store.preferences?.reportCurrency,
+      store.preferences?.defaultCurrency,
       store.setReportCurrency,
     ]),
   );

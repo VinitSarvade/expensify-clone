@@ -10,7 +10,7 @@ interface User {
   profilePic?: string | null;
   preferences?: {
     twoFactor?: boolean;
-    reportCurrency?: string;
+    defaultCurrency?: string;
     offlineMode?: boolean;
     realtimeAlerts?: boolean;
   };
@@ -34,6 +34,12 @@ export const useUser = create<UserStore>()(
       lastName: "Sarvade",
       email: "vinit.sarvade.08@gmail.com",
       profilePic: undefined,
+      preferences: {
+        twoFactor: false,
+        defaultCurrency: "USD",
+        offlineMode: false,
+        realtimeAlerts: false,
+      },
       setUser: (user) => {
         set(user);
       },
@@ -76,7 +82,7 @@ export const useUser = create<UserStore>()(
       },
       setReportCurrency: (currency) => {
         set({
-          preferences: { ...get().preferences, reportCurrency: currency },
+          preferences: { ...get().preferences, defaultCurrency: currency },
         });
       },
     }),
