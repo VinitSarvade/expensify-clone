@@ -23,7 +23,7 @@ export default function Onboarding() {
 
   const onSubmit = (values: OnBoardingForm) => {
     setUser(values);
-    router.replace("/(tabs)");
+    router.replace("/(tabs)/home");
   };
 
   const { form, validations } = useOnboardingForm(onSubmit);
