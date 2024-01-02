@@ -1,5 +1,11 @@
 import { useCallback, useState } from "react";
-import { Dimensions, Pressable, TouchableOpacity, View } from "react-native";
+import {
+  Dimensions,
+  Pressable,
+  TouchableOpacity,
+  View,
+  Platform,
+} from "react-native";
 import { Feather, Ionicons } from "@expo/vector-icons";
 import Animated, {
   FadeInRight,
@@ -88,8 +94,12 @@ export default function Fab() {
       borderRadius: isOpen ? withTiming(10) : withTiming(28),
       right: isOpen ? withTiming(5) : withTiming(20),
       bottom: isOpen ? withTiming(5) : withTiming(128),
-      borderBottomEndRadius: isOpen ? withTiming(50) : withTiming(28),
-      borderBottomStartRadius: isOpen ? withTiming(50) : withTiming(28),
+      borderBottomEndRadius: isOpen
+        ? withTiming(Platform.OS === "ios" ? 50 : 10)
+        : withTiming(28),
+      borderBottomStartRadius: isOpen
+        ? withTiming(Platform.OS === "ios" ? 50 : 10)
+        : withTiming(28),
       backgroundColor: isOpen
         ? withTiming(Colors["app-bg"])
         : withTiming(Colors["app-primary"]),

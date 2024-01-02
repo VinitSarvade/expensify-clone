@@ -26,7 +26,7 @@ export default function Settings() {
 
   return (
     <ScreenWrapper>
-      <View className="px-3">
+      <View className="px-3 pb-10">
         <Animated.View entering={FadeInRight}>
           <Link href="/(settings)/profile" asChild>
             <TouchableOpacity
