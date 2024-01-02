@@ -1,9 +1,9 @@
 import { View, TouchableOpacity } from "react-native";
 import { Tabs } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
+import { SvgFromUri } from "react-native-svg";
 
 import Colors from "@/shared/constants/Colors";
-import { SvgFromUri } from "react-native-svg";
 
 const TabItems = [
   {

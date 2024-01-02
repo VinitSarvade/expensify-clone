@@ -1,12 +1,14 @@
 import "../style.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useFonts } from "expo-font";
-import { SplashScreen, Stack } from "expo-router";
+import { SplashScreen, Stack, router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 
 import Colors from "@/shared/constants/Colors";
 import Fab from "@/shared/components/fab";
+import { useUser } from "@/shared/store/user";
+import { useShallow } from "zustand/react/shallow";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -14,18 +16,28 @@ export {
 } from "expo-router";
 
 export const unstable_settings = {
-  // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: "(tabs)",
+  initialRouteName: "index",
 };
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
+  const [storeLoaded, setStoreLoaded] = useState(false);
+  const email = useUser(useShallow((store) => store.email ?? ""));
+
+  useUser.persist.onFinishHydration(() => {
+    setStoreLoaded(true);
+  });
+
   const [loaded, error] = useFonts({
     SpaceMono: require("@assets/fonts/SpaceMono-Regular.ttf"),
     ...FontAwesome.font,
   });
+
+  useEffect(() => {
+    setStoreLoaded(useUser.persist.hasHydrated());
+  }, []);
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
@@ -33,12 +45,15 @@ export default function RootLayout() {
   }, [error]);
 
   useEffect(() => {
-    if (loaded) {
+    if (loaded && storeLoaded) {
       SplashScreen.hideAsync();
+      if (storeLoaded && email.length > 0) {
+        router.replace("/(tabs)");
+      }
     }
-  }, [loaded]);
+  }, [loaded, storeLoaded, email]);
 
-  if (!loaded) {
+  if (!loaded || !storeLoaded) {
     return null;
   }
 
@@ -57,6 +72,7 @@ export default function RootLayout() {
           headerTintColor: Colors["app-text"],
         }}
       >
+        <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen
           name="(settings)/profile"

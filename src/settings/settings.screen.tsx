@@ -17,6 +17,7 @@ export default function Settings() {
   const [
     firstName,
     lastName,
+    email,
     profilePic,
     preferences,
     toggleOfflineMode,
@@ -26,6 +27,7 @@ export default function Settings() {
     useShallow((store) => [
       store.firstName,
       store.lastName,
+      store.email,
       store.profilePic,
       store.preferences,
       store.toggleOfflineMode,
@@ -53,9 +55,7 @@ export default function Settings() {
                 color={Colors["app-text"]}
               />
             </View>
-            <Text className="text-app-text-light text-sm">
-              vinit.sarvade.08@gmail.com
-            </Text>
+            <Text className="text-app-text-light text-sm">{email}</Text>
           </TouchableOpacity>
         </Link>
       </Animated.View>

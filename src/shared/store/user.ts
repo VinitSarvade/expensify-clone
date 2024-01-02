@@ -30,9 +30,9 @@ interface UserStore extends User {
 export const useUser = create<UserStore>()(
   persist(
     (set, get) => ({
-      firstName: "Vinit",
-      lastName: "Sarvade",
-      email: "vinit.sarvade.08@gmail.com",
+      firstName: "",
+      lastName: "",
+      email: "",
       profilePic: undefined,
       preferences: {
         twoFactor: false,
@@ -87,7 +87,7 @@ export const useUser = create<UserStore>()(
       },
     }),
     {
-      name: "user",
+      name: "user-store",
       storage: createJSONStorage(() => {
         if (Platform.OS === "web") {
           return window.localStorage;

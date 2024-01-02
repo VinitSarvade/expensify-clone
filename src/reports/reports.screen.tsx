@@ -1,10 +1,11 @@
+import { View } from "react-native";
+
 import Text from "@/shared/components/text";
-import ScreenWrapper from "@/shared/components/screen-wrapper";
 
 export default function Reports() {
   return (
-    <ScreenWrapper>
-      <Text>Reports</Text>
-    </ScreenWrapper>
+    <View className="bg-app-bg flex-1 justify-center items-center">
+      <Text className="text-xl">Reports coming soon</Text>
+    </View>
   );
 }

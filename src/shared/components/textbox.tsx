@@ -18,11 +18,11 @@ function Textbox(
   ref: ForwardedRef<TextInput>,
 ) {
   return (
-    <View>
+    <View className="relative">
       <Text
         className={twMerge(
           "text-md font-semibold",
-          error.length > 0 && "text-app-danger",
+          error.length > 0 && "!text-app-danger",
           labelClassName,
         )}
       >
@@ -39,7 +39,7 @@ function Textbox(
         {...props}
       />
       {error.length > 0 && (
-        <Text className="text-sm mt-1 font-normal italic text-app-danger">
+        <Text className="absolute bottom-0 translate-y-full text-sm mt-1 font-normal italic text-app-danger">
           {error}
         </Text>
       )}

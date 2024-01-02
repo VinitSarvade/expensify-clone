@@ -132,6 +132,8 @@ export default function AddExpenseScreen() {
                 onChangeText={(val) => handleChange(Number(val))}
                 onBlur={handleBlur}
                 error={meta.touchedErrors}
+                inputMode="numeric"
+                keyboardType="numeric"
               />
             )}
           </form.Field>
