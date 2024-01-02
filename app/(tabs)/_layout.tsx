@@ -47,6 +47,7 @@ export default function TabLayout() {
         },
         headerRight: HeaderRight,
         headerLeft: HeaderLeft,
+        headerTitleAlign: "center",
       }}
     >
       {TabItems.map(({ screen, title, icon }) => (
