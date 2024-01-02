@@ -32,7 +32,7 @@ const CLOSED_WIDTH = 56;
 const OPEN_HEIGHT = 280;
 const CLOSED_HEIGHT = 56;
 
-const FAB_VISIBLE_PATHS = ["/(tabs)", "/expenses", "/trips", "/reports"];
+const FAB_VISIBLE_PATHS = ["/home", "/expenses", "/trips", "/reports"];
 
 const OPTIONS: Option[] = [
   {

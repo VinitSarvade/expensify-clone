@@ -1,15 +1,16 @@
 import "../style.css";
 import { useEffect, useState } from "react";
-import { View } from "react-native";
+import { Pressable, View } from "react-native";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useFonts } from "expo-font";
-import { SplashScreen, Stack, router } from "expo-router";
+import { SplashScreen, Stack, router, useNavigation } from "expo-router";
 import { StatusBar } from "expo-status-bar";
+import { useShallow } from "zustand/react/shallow";
 
 import Colors from "@/shared/constants/Colors";
 import Fab from "@/shared/components/fab";
+import Text from "@/shared/components/text";
 import { useUser } from "@/shared/store/user";
-import { useShallow } from "zustand/react/shallow";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -48,7 +49,7 @@ export default function RootLayout() {
   useEffect(() => {
     if (loaded && storeLoaded) {
       if (storeLoaded && email.length > 0) {
-        router.replace("/(tabs)");
+        router.replace("/(tabs)/home");
       }
     }
   }, [loaded, storeLoaded, email]);
@@ -83,10 +84,6 @@ export default function RootLayout() {
           options={{ title: "Profile" }}
         />
         <Stack.Screen
-          name="(settings)/import-card"
-          options={{ title: "Import credit card" }}
-        />
-        <Stack.Screen
           name="(settings)/currencies"
           options={{ title: "Select a Currency" }}
         />
@@ -96,7 +93,17 @@ export default function RootLayout() {
         />
         <Stack.Screen
           name="add-expense"
-          options={{ title: "New Expense", presentation: "modal" }}
+          options={{
+            title: "New Expense",
+            presentation: "modal",
+            headerRight() {
+              return (
+                <Pressable onPress={router.back}>
+                  <Text className="text-app-secondary">Close</Text>
+                </Pressable>
+              );
+            },
+          }}
         />
       </Stack>
       <Fab />

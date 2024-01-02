@@ -7,7 +7,7 @@ import Colors from "@/shared/constants/Colors";
 
 const TabItems = [
   {
-    screen: "index",
+    screen: "home",
     title: "Home",
     icon: "home" as const,
   },
