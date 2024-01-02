@@ -1,5 +1,6 @@
 import "../style.css";
 import { useEffect, useState } from "react";
+import { View } from "react-native";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useFonts } from "expo-font";
 import { SplashScreen, Stack, router } from "expo-router";
@@ -46,19 +47,22 @@ export default function RootLayout() {
 
   useEffect(() => {
     if (loaded && storeLoaded) {
-      SplashScreen.hideAsync();
       if (storeLoaded && email.length > 0) {
         router.replace("/(tabs)");
       }
     }
   }, [loaded, storeLoaded, email]);
 
+  const onLayout = () => {
+    SplashScreen.hideAsync();
+  };
+
   if (!loaded || !storeLoaded) {
     return null;
   }
 
   return (
-    <>
+    <View className="flex-1" onLayout={onLayout}>
       <StatusBar style="dark" />
       <Stack
         screenOptions={{
@@ -96,6 +100,6 @@ export default function RootLayout() {
         />
       </Stack>
       <Fab />
-    </>
+    </View>
   );
 }
