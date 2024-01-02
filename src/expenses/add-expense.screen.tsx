@@ -2,10 +2,7 @@ import { Switch, View } from "react-native";
 import { router } from "expo-router";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useShallow } from "zustand/react/shallow";
-import { useForm } from "@tanstack/react-form";
-import { zodValidator } from "@tanstack/zod-form-adapter";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
-import { z } from "zod";
 
 import ScreenWrapper from "@/shared/components/screen-wrapper";
 import Text from "@/shared/components/text";
@@ -15,19 +12,10 @@ import { useUser } from "@/shared/store/user";
 import Colors from "@/shared/constants/Colors";
 import ProfilePic from "@/shared/components/profile-pic";
 import { useExpenses } from "@/shared/store/expenses";
-
-const validation = {
-  merchant: { onChange: z.string().min(1, "Merchant is required") },
-  date: { onChange: z.date({ required_error: "Date is required" }) },
-  amount: {
-    onChange: z.coerce
-      .number({
-        required_error: "Amount is required",
-        invalid_type_error: "Please enter a valid amount",
-      })
-      .gt(0, "Amount must be greater than 0"),
-  },
-};
+import {
+  AddExpenseFormValues,
+  useAddExpenseForm,
+} from "./hooks/add-expense-form";
 
 export default function AddExpenseScreen() {
   const [firstName, lastName, profilePic] = useUser(
@@ -35,20 +23,12 @@ export default function AddExpenseScreen() {
   );
   const addExpense = useExpenses(useShallow((store) => store.addExpense));
 
-  const form = useForm({
-    defaultValues: {
-      merchant: "",
-      date: new Date(),
-      amount: 0,
-      description: "",
-      reimbursable: false,
-    },
-    onSubmit: ({ value }) => {
-      addExpense(value);
-      router.replace("/(tabs)/expenses");
-    },
-    validatorAdapter: zodValidator,
-  });
+  const onSubmit = (values: AddExpenseFormValues) => {
+    addExpense(values);
+    router.replace("/(tabs)/expenses");
+  };
+
+  const { form, validation } = useAddExpenseForm(onSubmit);
 
   return (
     <ScreenWrapper>
@@ -84,9 +64,6 @@ export default function AddExpenseScreen() {
                   <>
                     <Textbox
                       label="Merchant"
-                      labelClassName={
-                        meta.touchedErrors.length > 0 ? "text-app-danger" : ""
-                      }
                       value={value}
                       onChangeText={handleChange}
                       onBlur={handleBlur}
