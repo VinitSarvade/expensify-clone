@@ -1,9 +1,10 @@
-import { View, TouchableOpacity } from "react-native";
+import { View, TouchableOpacity, Platform } from "react-native";
 import { Tabs } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { SvgFromUri } from "react-native-svg";
 
 import Colors from "@/shared/constants/Colors";
+import Text from "@/shared/components/text";
 
 const TabItems = [
   {
@@ -48,6 +49,13 @@ export default function TabLayout() {
         headerRight: HeaderRight,
         headerLeft: HeaderLeft,
         headerTitleAlign: "center",
+        ...Platform.select({
+          android: {
+            headerTitle: ({ children }) => {
+              return <Text>{children}</Text>;
+            },
+          },
+        }),
       }}
     >
       {TabItems.map(({ screen, title, icon }) => (
